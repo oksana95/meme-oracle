@@ -1,21 +1,37 @@
-import React, { useState } from 'react';
+import * as Localization from 'expo-localization';
+import React, { useMemo, useState } from 'react';
 import { Button, StyleSheet, Text, View } from 'react-native';
+import answersDataRaw from '../assets/data/answers.json';
+
+type Lang = 'ru' | 'en';
+
+type AnswerItem = {
+  id: number;
+  ru: string;
+  en: string;
+};
+
+const answersData = answersDataRaw as AnswerItem[];
 
 export default function Index() {
   const [message, setMessage] = useState("Нажми на кнопку, чтобы получить ответ");
 
-  const answers = [
-    "Да 😂",
-    "Нет 🙀",
-    "Может быть 🤔",
-    "Попробуй позже 🐾",
-    "100% да! 🚀",
-    "Даже не думай 😼",
-  ];
+const lang = useMemo<Lang>(() => {
+  const deviceLang = Localization.getLocales()[0]?.languageCode; // "en", "ru", ...
+  return deviceLang === 'ru' ? 'ru' : 'en';
+}, []);
+
+
+
+  const getRandomAnswer = () => {
+  const randomIndex = Math.floor(Math.random() * answersData.length);
+  const item = answersData[randomIndex];
+  return item ? item[lang as Lang] : '…';
+};
+
 
   const getAnswer = () => {
-    const randomIndex = Math.floor(Math.random() * answers.length);
-    setMessage(answers[randomIndex]);
+    setMessage(getRandomAnswer());
   };
 
   return (
@@ -26,6 +42,7 @@ export default function Index() {
     </View>
   );
 }
+
 
 const styles = StyleSheet.create({
   container: {
