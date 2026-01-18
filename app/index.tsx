@@ -1,4 +1,5 @@
 import * as Localization from 'expo-localization';
+import LottieView from 'lottie-react-native';
 import React, { useMemo, useState } from 'react';
 import { Button, StyleSheet, Text, View } from 'react-native';
 import answersDataRaw from '../assets/data/answers.json';
@@ -45,7 +46,13 @@ export default function Index() {
   };
 
   return (
-    <View style={styles.container}>
+  <View style={styles.container}>
+    <LottieView
+      source={require('../assets/lottie/Dog.json')}
+      autoPlay
+      loop
+      style={{ width: 250, height: 250 }}
+    />
       <Text style={styles.title}>{UI_TEXT[lang].title}</Text>
       <Text style={styles.message}>{message}</Text>
       <Button title={UI_TEXT[lang].button} onPress={getAnswer} />
