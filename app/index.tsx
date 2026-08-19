@@ -1,4 +1,3 @@
-// MEME_ORACLE_UPDATE: processing-copy-2026-08-18-v2
 import { Asset } from "expo-asset";
 import * as Haptics from "expo-haptics";
 import { LinearGradient } from "expo-linear-gradient";

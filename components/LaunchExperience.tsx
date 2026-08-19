@@ -1,4 +1,3 @@
-// MEME_ORACLE_UPDATE: splash-fix-2026-08-18-v2
 import { Asset } from "expo-asset";
 import { LinearGradient } from "expo-linear-gradient";
 import * as SplashScreen from "expo-splash-screen";
