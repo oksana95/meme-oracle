@@ -223,6 +223,8 @@ export default function Index() {
   const buttonPulse = useRef(new Animated.Value(0)).current;
 
   const isAnimating = phase === "transforming" || phase === "revealing";
+  const isButtonDisabled =
+    isAnimating || (isAndroid && (!isOrbReady || !isNextImageReady));
   const showBlink = phase === "idle" && currentImage === bulldog;
 
   useEffect(() => {
@@ -305,7 +307,7 @@ export default function Index() {
   }, [blinkOpacity, showBlink]);
 
   useEffect(() => {
-    if (isAnimating) {
+    if (isButtonDisabled) {
       buttonPulse.stopAnimation();
       buttonPulse.setValue(0);
       return;
@@ -330,7 +332,7 @@ export default function Index() {
 
     pulseAnimation.start();
     return () => pulseAnimation.stop();
-  }, [buttonPulse, isAnimating]);
+  }, [buttonPulse, isButtonDisabled]);
 
   const getNextReaction = (): PreparedReaction => {
     if (categoryBagRef.current.length === 0) {
@@ -712,11 +714,8 @@ export default function Index() {
     prepareFollowingReaction();
   };
 
-  const isButtonDisabled =
-    isAnimating || (isAndroid && (!isOrbReady || !isNextImageReady));
-
   const buttonTitle =
-    phase === "transforming"
+    phase === "transforming" || (isAndroid && phase === "revealing")
       ? UI_TEXT.processing
       : phase === "revealing" || phase === "result"
         ? UI_TEXT.askAgain
@@ -1036,7 +1035,10 @@ export default function Index() {
             hitSlop={8}
             style={({ pressed }) => [
               styles.buttonShell,
-              isButtonDisabled && styles.buttonDisabled,
+              isButtonDisabled &&
+                (isAndroid
+                  ? styles.buttonDisabledAndroid
+                  : styles.buttonDisabled),
               pressed && !isButtonDisabled && styles.buttonPressed,
             ]}
           >
@@ -1045,8 +1047,14 @@ export default function Index() {
               style={[
                 styles.buttonAura,
                 {
-                  opacity: buttonAuraOpacity,
-                  transform: [{ scale: buttonAuraScale }],
+                  opacity:
+                    isAndroid && isButtonDisabled ? 0 : buttonAuraOpacity,
+                  transform: [
+                    {
+                      scale:
+                        isAndroid && isButtonDisabled ? 1 : buttonAuraScale,
+                    },
+                  ],
                 },
               ]}
             />
@@ -1313,6 +1321,9 @@ const styles = StyleSheet.create({
   },
   buttonDisabled: {
     opacity: 0.52,
+    shadowOpacity: 0.12,
+  },
+  buttonDisabledAndroid: {
     shadowOpacity: 0.12,
   },
   buttonText: {
