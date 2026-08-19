@@ -10,9 +10,11 @@
     "backgroundColor": "#09051C",
     "newArchEnabled": true,
     "ios": {
-      "supportsTablet": true
+      "bundleIdentifier": "com.oksanadergunova.askthedog",
+      "supportsTablet": false
     },
     "android": {
+      "package": "com.oksanadergunova.askthedog",
       "icon": "./assets/images/icon.png",
       "adaptiveIcon": {
         "backgroundColor": "#09051C",
@@ -20,6 +22,11 @@
         "backgroundImage": "./assets/images/android-icon-background.png",
         "monochromeImage": "./assets/images/android-icon-monochrome.png"
       },
+      "blockedPermissions": [
+        "android.permission.READ_EXTERNAL_STORAGE",
+        "android.permission.WRITE_EXTERNAL_STORAGE",
+        "android.permission.SYSTEM_ALERT_WINDOW"
+      ],
       "edgeToEdgeEnabled": true,
       "predictiveBackGestureEnabled": false
     },
@@ -35,10 +42,7 @@
           "image": "./assets/images/splash-icon.png",
           "imageWidth": 240,
           "resizeMode": "contain",
-          "backgroundColor": "#09051C",
-          "dark": {
-            "backgroundColor": "#09051C"
-          }
+          "backgroundColor": "#09051C"
         }
       ],
       "expo-localization",
