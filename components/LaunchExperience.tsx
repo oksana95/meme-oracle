@@ -21,7 +21,7 @@ type LaunchExperienceProps = {
   ready: boolean;
 };
 
-const MIN_VISIBLE_MS = 1700;
+const MIN_VISIBLE_MS = 2100;
 const CONTENT_EXIT_DURATION_MS = 180;
 const BLOOM_IN_DURATION_MS = 110;
 const REVEAL_DURATION_MS = 260;
