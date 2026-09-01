@@ -11,7 +11,10 @@
     "newArchEnabled": true,
     "ios": {
       "bundleIdentifier": "com.oksanadergunova.askthedog",
-      "supportsTablet": false
+      "supportsTablet": false,
+      "infoPlist": {
+        "ITSAppUsesNonExemptEncryption": false
+      }
     },
     "android": {
       "package": "com.oksanadergunova.askthedog",
@@ -39,10 +42,16 @@
       [
         "expo-splash-screen",
         {
-          "image": "./assets/images/splash-icon.png",
+          "image": "./assets/images/launch-mascot.png",
           "imageWidth": 240,
           "resizeMode": "contain",
-          "backgroundColor": "#09051C"
+          "backgroundColor": "#09051C",
+          "android": {
+            "image": "./assets/images/launch-mascot.png",
+            "imageWidth": 190,
+            "resizeMode": "contain",
+            "backgroundColor": "#09051C"
+          }
         }
       ],
       "expo-localization",
@@ -51,6 +60,13 @@
     "experiments": {
       "typedRoutes": true,
       "reactCompiler": true
-    }
+    },
+    "extra": {
+      "router": {},
+      "eas": {
+        "projectId": "638ed5b0-70b9-44d2-a94f-007730b89d5b"
+      }
+    },
+    "owner": "oksanadergunova"
   }
 }
