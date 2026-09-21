@@ -269,6 +269,7 @@ export default function Index() {
 
   useEffect(() => {
     if (!showBlink) {
+      blinkOpacity.stopAnimation();
       blinkOpacity.setValue(0);
       return;
     }
@@ -293,8 +294,8 @@ export default function Index() {
             duration: 110,
             useNativeDriver: true,
           }),
-        ]).start(() => {
-          if (active) scheduleBlink();
+        ]).start(({ finished }) => {
+          if (finished && active) scheduleBlink();
         });
       }, delay);
     };
@@ -304,6 +305,8 @@ export default function Index() {
     return () => {
       active = false;
       clearTimeout(timer);
+      blinkOpacity.stopAnimation();
+      blinkOpacity.setValue(0);
     };
   }, [blinkOpacity, showBlink]);
 
@@ -462,6 +465,8 @@ export default function Index() {
     }
 
     isAnimatingRef.current = true;
+    blinkOpacity.stopAnimation();
+    blinkOpacity.setValue(0);
     const nextReaction = preparedReactionRef.current ?? getNextReaction();
     preparedReactionRef.current = null;
 
