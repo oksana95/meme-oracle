@@ -4,10 +4,18 @@
   },
   "build": {
     "preview": {
-      "distribution": "internal"
+      "distribution": "internal",
+      "env": {
+        "EXPO_PUBLIC_YANDEX_BANNER_IOS_ID": "demo-banner-yandex",
+        "EXPO_PUBLIC_YANDEX_BANNER_ANDROID_ID": "demo-banner-yandex"
+      }
     },
     "production": {
-      "autoIncrement": true
+      "autoIncrement": true,
+      "env": {
+        "EXPO_PUBLIC_YANDEX_BANNER_IOS_ID": "R-M-19785114-1",
+        "EXPO_PUBLIC_YANDEX_BANNER_ANDROID_ID": "R-M-19785093-1"
+      }
     }
   }
 }
