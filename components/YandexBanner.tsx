@@ -1,13 +1,14 @@
 import { useEffect, useState } from "react";
 import {
-    LayoutChangeEvent,
-    StyleSheet,
-    View,
+  LayoutChangeEvent,
+  Platform,
+  StyleSheet,
+  View,
 } from "react-native";
 import {
-    BannerAdSize,
-    BannerView,
-    MobileAds,
+  BannerAdSize,
+  BannerView,
+  MobileAds,
 } from "yandex-mobile-ads";
 
 type BannerSize = Awaited<
@@ -15,6 +16,13 @@ type BannerSize = Awaited<
 >;
 
 const FALLBACK_BANNER_HEIGHT = 58;
+const TEST_BANNER_AD_UNIT_ID = "demo-banner-yandex";
+
+const bannerAdUnitId =
+  Platform.select({
+    ios: process.env.EXPO_PUBLIC_YANDEX_BANNER_IOS_ID,
+    android: process.env.EXPO_PUBLIC_YANDEX_BANNER_ANDROID_ID,
+  }) ?? TEST_BANNER_AD_UNIT_ID;
 
 export default function YandexBanner() {
   const [containerWidth, setContainerWidth] = useState(0);
@@ -61,16 +69,16 @@ export default function YandexBanner() {
 
   return (
     <View
-        style={[
-            styles.container,
-            { height: bannerSize?.height ?? FALLBACK_BANNER_HEIGHT },
-        ]}
-        onLayout={handleLayout}
+      style={[
+        styles.container,
+        { height: bannerSize?.height ?? FALLBACK_BANNER_HEIGHT },
+      ]}
+      onLayout={handleLayout}
     >
       {bannerSize ? (
         <BannerView
           size={bannerSize}
-          adRequest={{ adUnitId: "demo-banner-yandex" }}
+          adRequest={{ adUnitId: bannerAdUnitId }}
         />
       ) : null}
     </View>
