@@ -21,6 +21,8 @@ import { SafeAreaView } from "react-native-safe-area-context";
 
 import LaunchExperience from "../components/LaunchExperience";
 
+import YandexBanner from "../components/YandexBanner";
+
 type Phase = "idle" | "transforming" | "revealing" | "result";
 type MessageKind = "prompt" | "answer";
 
@@ -267,6 +269,7 @@ export default function Index() {
 
   useEffect(() => {
     if (!showBlink) {
+      blinkOpacity.stopAnimation();
       blinkOpacity.setValue(0);
       return;
     }
@@ -291,8 +294,8 @@ export default function Index() {
             duration: 110,
             useNativeDriver: true,
           }),
-        ]).start(() => {
-          if (active) scheduleBlink();
+        ]).start(({ finished }) => {
+          if (finished && active) scheduleBlink();
         });
       }, delay);
     };
@@ -302,6 +305,8 @@ export default function Index() {
     return () => {
       active = false;
       clearTimeout(timer);
+      blinkOpacity.stopAnimation();
+      blinkOpacity.setValue(0);
     };
   }, [blinkOpacity, showBlink]);
 
@@ -460,6 +465,8 @@ export default function Index() {
     }
 
     isAnimatingRef.current = true;
+    blinkOpacity.stopAnimation();
+    blinkOpacity.setValue(0);
     const nextReaction = preparedReactionRef.current ?? getNextReaction();
     preparedReactionRef.current = null;
 
@@ -1075,13 +1082,9 @@ export default function Index() {
             </LinearGradient>
           </Pressable>
 
-          {/* Replace this view with the ad banner component later. */}
-          <View
-            pointerEvents="none"
-            accessibilityElementsHidden
-            importantForAccessibility="no-hide-descendants"
-            style={styles.adBannerSlot}
-          />
+          <View style={styles.adBannerSlot}>
+            <YandexBanner />
+          </View>
         </View>
       </SafeAreaView>
 
@@ -1266,7 +1269,7 @@ const styles = StyleSheet.create({
   },
   adBannerSlot: {
     width: "100%",
-    height: AD_BANNER_RESERVED_HEIGHT,
+    minHeight: AD_BANNER_RESERVED_HEIGHT,
   },
   buttonShell: {
     position: "relative",
